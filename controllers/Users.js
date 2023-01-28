@@ -1,5 +1,5 @@
 const User = require("../models/Users");
-
+const crypto = require("crypto");
 
 
 const getAllUsers = async (req, res)=>{
@@ -11,12 +11,15 @@ const getAllUsers = async (req, res)=>{
 };
 
 const addUser = async (req,res) => {
+    let { email, password, firstName, lastName } = req.body;
+    if (!email || !password || !firstName || !lastName) {
+        throw new Error("Please provide complete information");
+    }
     let newUser = new User();
-    newUser.firstname = req.body.firstname;
-    newUser.lastname = req.body.lastname;
-    newUser.age = req.body.age;
-    newUser.ci = req.body.ci;
-    newUser.email = req.body.email;
+    newUser.firstName = firstName;
+    newUser.lastName= lastName;
+    newUser.password = crypto.createHash("sha256").update(password).digest("hex"); 
+    newUser.email = email;
     newUser = await newUser.save();
     console.log(newUser)
     res.status(200).json({
@@ -34,12 +37,15 @@ const getByUser =  async(req, res) =>{
 
 }
 const editUser =  async(req, res) =>{
+    let { email, password, firstName, lastName } = req.body;
+    if (!email || !password || !firstName || !lastName) {
+        throw new Error("Please provide complete information");
+    }
     const userUpdate = {
-        firstname : req.body.firstname,
-        lastname : req.body.lastname,
-        age : req.body.age,
-        ci : req.body.ci,
-        email : req.body.email,
+        firstName : firstName,
+        lastName : lastName,
+        password : crypto.createHash("sha256").update(password).digest("hex"), 
+        email : email,
     }
     const user = await User.findByIdAndUpdate(req.params.id, userUpdate)
 
