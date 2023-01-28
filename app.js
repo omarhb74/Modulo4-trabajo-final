@@ -16,6 +16,12 @@ app.all("*", (req, res, next) => {
     throw new Error('route not found');
 });
 
+app.use((err, req, res, next) => {
+    res.status(400).json({
+        status: "error",
+        message: err.message,
+    });
+});
 
 module.exports = app;
 
