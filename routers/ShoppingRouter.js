@@ -14,5 +14,9 @@ ShoppingRouter
     .get(getShoppingByUser)
     // .put(editProduct)
     // .delete(deleteProduct);
+ShoppingRouter
+    .route("/:id")
+    .all(protect)
+    .post(payShoppingcart)
 
 module.exports = ShoppingRouter;
