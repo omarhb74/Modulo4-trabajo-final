@@ -46,9 +46,43 @@ const addShopping = async (req,res) => {
     }
 };
 
+const payShoppingcart = async (req,res) => {
+    const payshoppingcart = await Shoppingcart.findById(req.params.id)
+    let invoiceNumber = payshoppingcart.invoiceNumber;
+    let status=payshoppingcart.status;
+    let totalAmount=payshoppingcart.totalAmount;
+    let user=payshoppingcart.user;
+    const products = payshoppingcart.products;
+    let  shoppingUpdate
+
+    if (products.length>0 && status==="PENDING")
+    {
+        status="PAID";
+    
+       
+    }
+    else
+    {
+        console.log("ERROR el carrito no tiene productos");
+
+    }
+
+    shoppingUpdate = {
+        invoiceNumber,status,totalAmount,user,products
+    }
+    const shoppingcartUpdate = await Shoppingcart.findByIdAndUpdate(req.params.id,shoppingUpdate)
+
+
+    console.log('ProductJona',shoppingcartUpdate); 
+     res.status(200).json({
+         status:`Success`,
+         data: shoppingcartUpdate
+     })
+    } 
 
 
 module.exports = {
     addShopping,
     getShoppingByUser
+    payShoppingcart
 }
