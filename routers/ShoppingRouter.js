@@ -1,6 +1,6 @@
 const express = require('express');
 const ShoppingRouter = express.Router();
-const {addShopping} = require('../controllers/Shopping');
+const {addShopping, getShoppingByUser} = require('../controllers/Shopping');
 const { login, signup, protect } = require("../controllers/Auth");
 
 ShoppingRouter
@@ -9,9 +9,9 @@ ShoppingRouter
     .post(addShopping);
 
 ShoppingRouter
-    .route("/:id")
+    .route("/:user")
     // .all(protect)
-    // .get(getByProduct)
+    .get(getShoppingByUser)
     // .put(editProduct)
     // .delete(deleteProduct);
 
