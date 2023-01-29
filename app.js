@@ -13,6 +13,7 @@ app.use("/api/v1/product/", ProductRouter);
 app.use("/api/v1/user/", UserRouter);
 app.use("/api/v1/auth/", authRouter);
 app.use("/api/v1/cart/", shoppingRouter);
+app.use("/api/v1/cart/pay", shoppingRouter);
 
 app.all("*", (req, res, next) => {
     throw new Error('route not found');
